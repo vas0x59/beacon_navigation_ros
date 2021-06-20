@@ -30,7 +30,7 @@
         </visual>
 
       </link>
-      <plugin name="receiver_model_plugin" filename="/Users/vasily/Projects/beacons_ws/devel/lib/libbeacon_model_plugin.dylib">
+      <plugin name="receiver_model_plugin" filename="/Users/vasily/Projects/beacons_ws/devel/lib/libbeacon_model_plugin.so">
         <m_rssi>-60</m_rssi>
         <beacon_link>beacon</beacon_link>
       </plugin>
@@ -53,7 +53,7 @@
           </geometry>
         </visual>
       </link>
-      <plugin name="receiver_model_plugin" filename="/Users/vasily/Projects/beacons_ws/devel/lib/libbeacon_model_plugin.dylib">
+      <plugin name="receiver_model_plugin" filename="/Users/vasily/Projects/beacons_ws/devel/lib/libbeacon_model_plugin.so">
         <m_rssi>-60</m_rssi>
         <beacon_link>beacon</beacon_link>
       </plugin>
@@ -76,7 +76,7 @@
           </geometry>
         </visual>
       </link>
-      <plugin name="receiver_model_plugin" filename="/Users/vasily/Projects/beacons_ws/devel/lib/libbeacon_model_plugin.dylib">
+      <plugin name="receiver_model_plugin" filename="/Users/vasily/Projects/beacons_ws/devel/lib/libbeacon_model_plugin.so">
         <m_rssi>-60</m_rssi>
         <beacon_link>beacon</beacon_link>
       </plugin>

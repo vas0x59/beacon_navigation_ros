@@ -33,7 +33,7 @@
     </plugin>
   </gazebo>
   <gazebo>
-    <plugin name="receiver_model_plugin" filename="/Users/vasily/Projects/beacons_ws/devel/lib/libreceiver_model_plugin.dylib">
+    <plugin name="receiver_model_plugin" filename="/Users/vasily/Projects/beacons_ws/devel/lib/libreceiver_model_plugin.so">
       <receiver_link>receiver_link</receiver_link>
       <update_rate>1</update_rate>
     </plugin>

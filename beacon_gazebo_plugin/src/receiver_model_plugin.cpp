@@ -45,6 +45,8 @@
 //#include <stdio.h>
 #include <string>
 
+#include <beacon_gazebo_plugin/ReceiverIn.h>
+
 namespace gazebo {
     class ReceiverModelPlugin : public ModelPlugin {
     public:
@@ -102,7 +104,8 @@ namespace gazebo {
                 ROS_ERROR("Haha update_rate");
                 return;
             }
-
+            ros::NodeHandle n;
+            this->receiver_in_msgs_publisher = n.advertise<beacon_gazebo_plugin::ReceiverIn>("/" + this->model->GetName() + "/" + this->receiver_name + "/receiver_in_msgs", 1000);
             this->l_u_time = common::Time(0.0);
             this->updateConnection = event::Events::ConnectWorldUpdateBegin(
                     boost::bind(&ReceiverModelPlugin::OnUpdate, this, _1));
@@ -123,9 +126,15 @@ namespace gazebo {
                             std::string beacon_name = std::string("beacon__") + model->GetName();
                             auto beacon_p = link->WorldPose().Pos();
                             auto receiver_p = this->receiver_link->WorldPose().Pos();
-//                            double d = 0;
-                            double d = sqrt(pow(beacon_p.X() - receiver_p.X(), 2) + pow(beacon_p.Y() - receiver_p.Y(), 2) + pow(beacon_p.Z() - receiver_p.Z(), 2));
-                            ROS_INFO("ReceiverModelPlugin:\n\treceiver_name: %s\n\tbeacon_name: %s\n\tdistance: %lf",this->receiver_name.c_str(), beacon_name.c_str(), d);
+                            double d = std::sqrt(std::pow(beacon_p.X() - receiver_p.X(), 2) + std::pow(beacon_p.Y() - receiver_p.Y(), 2) + std::pow(beacon_p.Z() - receiver_p.Z(), 2));
+                            beacon_gazebo_plugin::ReceiverIn msg;
+                            msg.time_stamp = ros::Time::now();
+                            msg.rssi = this->get_rssi_from_distance(d);
+                            msg.id = beacon_name;
+                            msg.m_rssi = this->m_rssi;
+                            ROS_INFO("ReceiverModelPlugin:\n\treceiver_name: %s\n\tbeacon_name: %s\n\tdistance: %lf\n\trssi: %lf\n\trssi_m: %lf",
+                                     this->receiver_name.c_str(), beacon_name.c_str(), d, msg.rssi, msg.m_rssi);
+                            this->receiver_in_msgs_publisher.publish(msg);
                         }
                     }
                 }
@@ -140,6 +149,12 @@ namespace gazebo {
         float update_rate;
 //        common::Time ;
         common::Time l_u_time;
+        ros::Publisher receiver_in_msgs_publisher;
+        const double m_rssi = -60.0; // TODO: get m_rssi from config or world
+    private:
+        double get_rssi_from_distance(double distance) {
+            return this->m_rssi * std::pow(((distance - 0.0) / 1.0), (1.0 / 10.0));
+        }
     };
 
     // Register this plugin with the simulator
