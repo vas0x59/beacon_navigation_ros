@@ -22,6 +22,7 @@ namespace gazebo
 
         void Load(physics::WorldPtr _world, sdf::ElementPtr _sdf)
         {
+            printf("TEST\n");
             // Make sure the ROS node for Gazebo has already been initialized
             if (!ros::isInitialized())
             {

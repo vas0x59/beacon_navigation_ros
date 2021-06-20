@@ -1,13 +1,38 @@
 <?xml version="1.0" ?>
 <sdf version="1.4">
-  <world name="default">
+  <world name="test">
 
 
     <include>
       <uri>model://sun</uri>
     </include>
 
+    <include>
+      <uri>model://ground_plane</uri>
+    </include>
+
+    <model name="beacon1">
+      <pose>1 1 0.5 0 0 0</pose>
+      <link name="link">
+        <collision name="collision">
+          <geometry>
+            <box>
+              <size>0.25 0.25 0.25</size>
+            </box>
+          </geometry>
+        </collision>
+
+        <visual name="visual">
+          <geometry>
+            <box>
+              <size>0.25 0.25 0.25</size>
+            </box>
+          </geometry>
+        </visual>
+      </link>
+<!--      <plugin name="beacon_model_plugin" filename="libbeacon_model_plugin.so"/>-->
+    </model>
     <!-- reference to your plugin -->
-    <plugin name="helloplugin" filename="libhelloplugin.so"/>
+<!--    <plugin name="helloplugin" filename="libhelloplugin.dylib"/>-->
   </world>
 </sdf>

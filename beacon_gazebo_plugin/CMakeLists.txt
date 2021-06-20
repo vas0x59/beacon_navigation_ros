@@ -8,18 +8,39 @@ add_compile_options(-std=c++11)
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
-  gazebo_ros
-  roscpp
-  rospy
-  std_msgs
+        gazebo_dev
+        gazebo_ros
+        message_generation
+        gazebo_msgs
+        roscpp
+        rospy
+        nodelet
+        angles
+        std_srvs
+        geometry_msgs
+        sensor_msgs
+        nav_msgs
+        urdf
+        tf
+        tf2_ros
+        dynamic_reconfigure
+        rosgraph_msgs
+        trajectory_msgs
+        image_transport
+        rosconsole
+        cv_bridge
+        polled_camera
+        diagnostic_updater
+        camera_info_manager
+        std_msgs
 )
 
-find_package(gazebo REQUIRED)
+#find_package(gazebo REQUIRED)
 
-link_directories(${GAZEBO_LIBRARY_DIRS})
+link_directories(${catkin_LIBRARY_DIRS})
 
 ## System dependencies are found with CMake's conventions
-# find_package(Boost REQUIRED COMPONENTS system)
+ find_package(Boost REQUIRED COMPONENTS system)
 
 
 ## Uncomment this if the package has a setup.py. This macro ensures
@@ -52,11 +73,10 @@ link_directories(${GAZEBO_LIBRARY_DIRS})
 ##   * add every package in MSG_DEP_SET to generate_messages(DEPENDENCIES ...)
 
 ## Generate messages in the 'msg' folder
-# add_message_files(
-#   FILES
-#   Message1.msg
-#   Message2.msg
-# )
+ add_message_files(
+   FILES
+   ReceiverIn.msg
+ )
 
 ## Generate services in the 'srv' folder
 # add_service_files(
@@ -73,10 +93,10 @@ link_directories(${GAZEBO_LIBRARY_DIRS})
 # )
 
 ## Generate added messages and services with any dependencies listed here
-# generate_messages(
-#   DEPENDENCIES
-#   std_msgs
-# )
+ generate_messages(
+   DEPENDENCIES
+   std_msgs
+ )
 
 ################################################
 ## Declare ROS dynamic reconfigure parameters ##
@@ -125,7 +145,7 @@ DEPENDS
 ## Your package locations should be listed before other locations
 include_directories(
 # include
-  ${catkin_INCLUDE_DIRS} ${Boost_INCLUDE_DIR} ${GAZEBO_INCLUDE_DIRS}
+  ${catkin_INCLUDE_DIRS} ${Boost_INCLUDE_DIR}
 )
 
 ## Declare a C++ library
@@ -212,5 +232,9 @@ include_directories(
 
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)
-add_library(helloplugin MODULE src/HelloPlugin.cpp)
-target_link_libraries(helloplugin ${catkin_LIBRARIES} ${GAZEBO_LIBRARIES})
+#add_library(helloplugin MODULE src/HelloPlugin.cpp)
+#target_link_libraries(helloplugin ${catkin_LIBRARIES} )
+#add_library(beacon_model_plugin MODULE src/beacon_model_plugin.cpp)
+#target_link_libraries(beacon_model_plugin ${catkin_LIBRARIES} ${GAZEBO_LIBRARIES})
+add_library(receiver_model_plugin MODULE src/receiver_model_plugin.cpp)
+target_link_libraries(receiver_model_plugin ${catkin_LIBRARIES} ${Boost_LIBRARIES})
