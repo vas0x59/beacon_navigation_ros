@@ -1,0 +1,25 @@
+<?xml version='1.0'?>
+<sdf version='1.4'>
+    <model name="beacon_v1">
+        <link name="beacon">
+            <collision name="collision">
+                <geometry>
+                    <box>
+                        <size>0.25 0.25 0.25</size>
+                    </box>
+                </geometry>
+            </collision>
+            <visual name="visual">
+                <geometry>
+                    <box>
+                        <size>0.25 0.25 0.25</size>
+                    </box>
+                </geometry>
+            </visual>
+        </link>
+        <plugin name="receiver_model_plugin" filename="/Users/vasily/Projects/beacons_ws/devel/lib/libbeacon_model_plugin.so">
+            <m_rssi>-60</m_rssi>
+            <beacon_link>beacon</beacon_link>
+        </plugin>
+    </model>
+</sdf>

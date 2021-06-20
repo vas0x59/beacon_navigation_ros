@@ -1,0 +1,87 @@
+<?xml version="1.0" ?>
+<sdf version="1.4">
+  <world name="default">
+
+
+    <include>
+      <uri>model://sun</uri>
+    </include>
+
+    <include>
+      <uri>model://ground_plane</uri>
+    </include>
+
+<!--    <model name="beacon_1">-->
+<!--      <pose>-1 1 0.5 0 0 0</pose>-->
+<!--      <link name="beacon">-->
+<!--        <collision name="collision">-->
+<!--          <geometry>-->
+<!--            <box>-->
+<!--              <size>0.25 0.25 0.25</size>-->
+<!--            </box>-->
+<!--          </geometry>-->
+<!--        </collision>-->
+<!--        <visual name="visual">-->
+<!--          <geometry>-->
+<!--            <box>-->
+<!--              <size>0.25 0.25 0.25</size>-->
+<!--            </box>-->
+<!--          </geometry>-->
+<!--        </visual>-->
+
+<!--      </link>-->
+<!--      <plugin name="receiver_model_plugin" filename="/Users/vasily/Projects/beacons_ws/devel/lib/libbeacon_model_plugin.so">-->
+<!--        <m_rssi>-60</m_rssi>-->
+<!--        <beacon_link>beacon</beacon_link>-->
+<!--      </plugin>-->
+<!--    </model>-->
+<!--    <model name="beacon_2">-->
+<!--      <pose>1 -1 0.5 0 0 0</pose>-->
+<!--      <link name="beacon">-->
+<!--        <collision name="collision">-->
+<!--          <geometry>-->
+<!--            <box>-->
+<!--              <size>0.25 0.25 0.25</size>-->
+<!--            </box>-->
+<!--          </geometry>-->
+<!--        </collision>-->
+<!--        <visual name="visual">-->
+<!--          <geometry>-->
+<!--            <box>-->
+<!--              <size>0.25 0.25 0.25</size>-->
+<!--            </box>-->
+<!--          </geometry>-->
+<!--        </visual>-->
+<!--      </link>-->
+<!--      <plugin name="receiver_model_plugin" filename="/Users/vasily/Projects/beacons_ws/devel/lib/libbeacon_model_plugin.so">-->
+<!--        <m_rssi>-60</m_rssi>-->
+<!--        <beacon_link>beacon</beacon_link>-->
+<!--      </plugin>-->
+<!--    </model>-->
+<!--    <model name="beacon_3">-->
+<!--      <pose>0.5 4 0.5 0 0 0</pose>-->
+<!--      <link name="beacon">-->
+<!--        <collision name="collision">-->
+<!--          <geometry>-->
+<!--            <box>-->
+<!--              <size>0.25 0.25 0.25</size>-->
+<!--            </box>-->
+<!--          </geometry>-->
+<!--        </collision>-->
+<!--        <visual name="visual">-->
+<!--          <geometry>-->
+<!--            <box>-->
+<!--              <size>0.25 0.25 0.25</size>-->
+<!--            </box>-->
+<!--          </geometry>-->
+<!--        </visual>-->
+<!--      </link>-->
+<!--      <plugin name="receiver_model_plugin" filename="/Users/vasily/Projects/beacons_ws/devel/lib/libbeacon_model_plugin.so">-->
+<!--        <m_rssi>-60</m_rssi>-->
+<!--        <beacon_link>beacon</beacon_link>-->
+<!--      </plugin>-->
+<!--    </model>-->
+    <!-- reference to your plugin -->
+<!--    <plugin name="helloplugin" filename="/Users/vasily/Projects/beacons_ws/devel/lib/libhelloplugin.dylib"/>-->
+  </world>
+</sdf>

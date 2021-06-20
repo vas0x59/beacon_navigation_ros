@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+    <arg name="beacon_name"/>
+    <arg name="init_pose"/>
+    <arg name="model_file" default="'$(find beacon_gazebo_plugin)/models/beacon/model.sdf'" />
+    <group ns="$(arg beacon_name)">
+        <param name="tf_prefix" value="$(arg beacon_name)_tf" />
+        <node name="model_spawn__$(arg beacon_name)" pkg="gazebo_ros" type="spawn_model" output="screen"
+              args="$(arg init_pose) -sdf -model $(arg beacon_name) -file $(arg model_file)" />
+    </group>
+</launch>

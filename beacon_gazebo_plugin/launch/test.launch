@@ -5,21 +5,18 @@
   </include>
   <include file="$(find beacon_gazebo_plugin)/launch/robot.launch" >
     <arg name="init_pose" value="-x 0 -y 0 -z 0.2" />
-    <arg name="robot_name"  value="Robot1" />
+    <arg name="robot_name" value="Robot1" />
   </include>
   <include file="$(find beacon_gazebo_plugin)/launch/robot.launch" >
     <arg name="init_pose" value="-x 2 -y 2 -z 0.2" />
-    <arg name="robot_name"  value="Robot2" />
+    <arg name="robot_name" value="Robot2" />
   </include>
-
-<!--  <param name="robot_description" command="$(find xacro)/xacro &#45;&#45;inorder '$(find beacon_gazebo_plugin)/urdf/autonet_v1.xacro'" />-->
-
-<!--  <arg name="x" default="0"/>-->
-<!--  <arg name="y" default="0"/>-->
-<!--  <arg name="z" default="0.2"/>-->
-
-<!--  <node name="mybot_spawn" pkg="gazebo_ros" type="spawn_model" output="screen"-->
-<!--        args="-urdf -param robot_description -model autonet_v1 -x $(arg x) -y $(arg y) -z $(arg z)" />-->
-<!--  &lt;!&ndash;0 -0.1 0.2" rpy="0 0.5 0  &ndash;&gt;-->
-<!--  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />-->
+  <include file="$(find beacon_gazebo_plugin)/launch/beacon.launch" >
+    <arg name="init_pose" value="-x 1 -y 1 -z 0.2" />
+    <arg name="beacon_name" value="beacon_1" />
+  </include>
+  <include file="$(find beacon_gazebo_plugin)/launch/beacon.launch" >
+    <arg name="init_pose" value="-x 0 -y 4 -z 0.2" />
+    <arg name="beacon_name" value="beacon_2" />
+  </include>
 </launch>
