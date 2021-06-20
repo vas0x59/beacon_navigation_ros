@@ -16,13 +16,8 @@ namespace gazebo
     class HelloPlugin : public WorldPlugin
     {
     public:
-        HelloPlugin() : WorldPlugin()
-        {
-        }
-
         void Load(physics::WorldPtr _world, sdf::ElementPtr _sdf)
         {
-            printf("TEST\n");
             // Make sure the ROS node for Gazebo has already been initialized
             if (!ros::isInitialized())
             {
@@ -32,8 +27,6 @@ namespace gazebo
             }
 
             ROS_INFO("HelloPlugin: Hello World!");
-//            printf("HHHHHHHH\n");
-
         }
 
     };
