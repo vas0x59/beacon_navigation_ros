@@ -136,6 +136,15 @@
   <gazebo reference='receiver_joint'>
     <preserveFixedJoint>true</preserveFixedJoint>
   </gazebo>
+  <joint name="beacon_joint" type="fixed">
+    <axis xyz="0 1 0" />
+    <origin xyz="0 0 0.1" rpy="0 0 0"/>
+    <parent link="base_link"/>
+    <child link="beacon_link"/>
+  </joint>
+  <gazebo reference='beacon_joint'>
+    <preserveFixedJoint>true</preserveFixedJoint>
+  </gazebo>
 <!--  &lt;!&ndash; Camera &ndash;&gt;-->
   <link name="front_bumper_link">
     <pose>0 0 0 0 0 0</pose>
@@ -186,6 +195,29 @@
   </link>
 
   <link name="receiver_link">
+    <pose>0 0 0 0 0 0</pose>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.02 0.02 0.04"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.02 0.02 0.04"/>
+      </geometry>
+      <!--      <material name="green"/>-->
+    </visual>
+    <inertial>
+      <mass value="1e-5" />
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
+    </inertial>
+  </link>
+
+  <link name="beacon_link">
     <pose>0 0 0 0 0 0</pose>
     <collision>
       <origin xyz="0 0 0" rpy="0 0 0"/>

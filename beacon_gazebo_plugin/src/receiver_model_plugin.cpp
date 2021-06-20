@@ -152,7 +152,7 @@ namespace gazebo {
         ros::Publisher receiver_in_msgs_publisher;
         const double m_rssi = -60.0; // TODO: get m_rssi from config or world
     private:
-        double get_rssi_from_distance(double distance) {
+        double get_rssi_from_distance(double distance) { // TODO: add noise simulation
             return this->m_rssi * std::pow(((distance - 0.0) / 1.0), (1.0 / 10.0));
         }
     };

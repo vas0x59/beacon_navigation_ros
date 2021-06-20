@@ -14,7 +14,10 @@
     <material>Gazebo/Blue</material>
   </gazebo>
   <gazebo reference="receiver_link">
-    <material>Gazebo/Blue</material>
+    <material>Gazebo/Orange</material>
+  </gazebo>
+  <gazebo reference="beacon_link">
+    <material>Gazebo/Purple</material>
   </gazebo>
 
   <gazebo>

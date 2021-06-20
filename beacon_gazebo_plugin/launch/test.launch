@@ -3,14 +3,23 @@
   <include file="$(find gazebo_ros)/launch/empty_world.launch">
     <arg name="world_name" value="$(find beacon_gazebo_plugin)/worlds/test.world"/>
   </include>
-  <param name="robot_description" command="$(find xacro)/xacro --inorder '$(find beacon_gazebo_plugin)/urdf/autonet_v1.xacro'" />
+  <include file="$(find beacon_gazebo_plugin)/launch/robot.launch" >
+    <arg name="init_pose" value="-x 0 -y 0 -z 0.2" />
+    <arg name="robot_name"  value="Robot1" />
+  </include>
+  <include file="$(find beacon_gazebo_plugin)/launch/robot.launch" >
+    <arg name="init_pose" value="-x 2 -y 2 -z 0.2" />
+    <arg name="robot_name"  value="Robot2" />
+  </include>
 
-  <arg name="x" default="0"/>
-  <arg name="y" default="0"/>
-  <arg name="z" default="0.2"/>
+<!--  <param name="robot_description" command="$(find xacro)/xacro &#45;&#45;inorder '$(find beacon_gazebo_plugin)/urdf/autonet_v1.xacro'" />-->
 
-  <node name="mybot_spawn" pkg="gazebo_ros" type="spawn_model" output="screen"
-        args="-urdf -param robot_description -model autonet_v1 -x $(arg x) -y $(arg y) -z $(arg z)" />
-  <!--0 -0.1 0.2" rpy="0 0.5 0  -->
-  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
+<!--  <arg name="x" default="0"/>-->
+<!--  <arg name="y" default="0"/>-->
+<!--  <arg name="z" default="0.2"/>-->
+
+<!--  <node name="mybot_spawn" pkg="gazebo_ros" type="spawn_model" output="screen"-->
+<!--        args="-urdf -param robot_description -model autonet_v1 -x $(arg x) -y $(arg y) -z $(arg z)" />-->
+<!--  &lt;!&ndash;0 -0.1 0.2" rpy="0 0.5 0  &ndash;&gt;-->
+<!--  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />-->
 </launch>
