@@ -54,7 +54,7 @@ link_directories( ${GAZEBO_LIBRARY_DIRS})
 ## Generate messages in the 'msg' folder
  add_message_files(
    FILES
-   ReceiverIn.msg
+   ReceiverIn.msg BeaconSimPose.msg
  )
 
 ## Generate services in the 'srv' folder
@@ -74,7 +74,7 @@ link_directories( ${GAZEBO_LIBRARY_DIRS})
 ## Generate added messages and services with any dependencies listed here
  generate_messages(
    DEPENDENCIES
-   std_msgs
+   std_msgs geometry_msgs
  )
 
 ################################################

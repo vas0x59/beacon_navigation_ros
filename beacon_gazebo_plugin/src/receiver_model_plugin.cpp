@@ -2,59 +2,20 @@
 // Created by Vasily Yuryev on 19.06.2021.
 //
 
-
-//// Gazebo
-//#include <gazebo/common/common.hh>
-//#include <gazebo/physics/physics.hh>
-//#include <gazebo_plugins/gazebo_ros_utils.h>
-//
-//// ROS
-//#include <ros/ros.h>
-//#include <tf/transform_broadcaster.h>
-//#include <tf/transform_listener.h>
-//#include <geometry_msgs/Twist.h>
-//#include <geometry_msgs/Pose2D.h>
-//#include <nav_msgs/Odometry.h>
-//#include <sensor_msgs/JointState.h>
-//
-//// Custom Callback Queue
-//#include <ros/callback_queue.h>
-//#include <ros/advertise_options.h>
-//
-//// Boost
-//#include <boost/thread.hpp>
-//#include <boost/bind.hpp>
-//#include <algorithm>
-//#include <assert.h>
-
-//#include <gazebo_plugins/gazebo_ros_diff_drive.h>
-
-//#include <ignition/math/Angle.hh>
-//#include <ignition/math/Pose3.hh>
-//#include <ignition/math/Quaternion.hh>
-//#include <ignition/math/Vector3.hh>
-//#include <sdf/sdf.hh>
-//
-//#include <ros/ros.h>
 #include <gazebo/common/Plugin.hh>
 #include <ros/ros.h>
 #include <ignition/math/Pose3.hh>
 #include "gazebo/physics/physics.hh"
 #include "gazebo/common/common.hh"
 #include "gazebo/gazebo.hh"
-//#include <stdio.h>
 #include <string>
-
 #include <beacon_gazebo_plugin/ReceiverIn.h>
 
 namespace gazebo {
     class ReceiverModelPlugin : public ModelPlugin {
     public:
         void Load(physics::ModelPtr _parent, sdf::ElementPtr _sdf) override {
-//             this->parent = _parent;
-//             gazebo_ros_ = GazeboRosPtr ( new GazeboRos ( _parent, _sdf, "ReceiverModelPlugin" ) );
-//             // Make sure the ROS node for Gazebo has already been initialized
-//             gazebo_ros_->isInitialized();
+
             if (!ros::isInitialized()) {
                 ROS_FATAL_STREAM("A ROS node for Gazebo has not been initialized, unable to load plugin. "
                                          << "Load the Gazebo system plugin  in the gazebo_ros package)");
@@ -62,14 +23,12 @@ namespace gazebo {
             }
 
             ROS_INFO("ReceiverModelPlugin: Hello World!");
-//             printf("HELLO");
-            // Store the pointer to the model
+
             this->model = _parent;
             this->world = _parent->GetWorld();
 
-//             // Listen to the update event. This event is broadcast every
-//             // simulation iteration.
             ROS_INFO("ReceiverModelPlugin: model links");
+
             for (auto &link : this->model->GetLinks()) {
                 std::string link_name = link->GetName();
 //                            double d = sqrt(pow(beacon_p.X() - receiver_p.X(), 2) + pow(beacon_p.Y() - receiver_p.Y(), 2) + pow(beacon_p.Z() - receiver_p.Z(), 2));
@@ -90,7 +49,6 @@ namespace gazebo {
                     }
                     ROS_ERROR("receiver_link Is NULL");
                     return;
-//                    this->useParentAsReference = true;
                 }
                 ROS_INFO("ReceiverModelPlugin: name: %s", this->receiver_name.c_str());
             } else {
@@ -147,10 +105,11 @@ namespace gazebo {
         std::string receiver_name;
         physics::WorldPtr world;
         float update_rate;
-//        common::Time ;
+
         common::Time l_u_time;
         ros::Publisher receiver_in_msgs_publisher;
         const double m_rssi = -60.0; // TODO: get m_rssi from config or world
+
     private:
         double get_rssi_from_distance(double distance) { // TODO: add noise simulation
             return this->m_rssi * std::pow(((distance - 0.0) / 1.0), (1.0 / 10.0));

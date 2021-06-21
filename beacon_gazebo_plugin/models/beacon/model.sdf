@@ -11,6 +11,7 @@
             </collision>
             <visual name="visual">
                 <geometry>
+                    <material>Gazebo/Orange</material>
                     <box>
                         <size>0.25 0.25 0.25</size>
                     </box>
