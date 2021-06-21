@@ -16,6 +16,7 @@
     </inertial>
     <!-- body -->
     <collision name="collision_chassis">
+      <origin rpy="0 0 0" xyz="-0.1 0 0"/>
       <geometry>
         <box size="0.295 0.295 0.05"/>
       </geometry>

@@ -55,6 +55,25 @@
 <!--      <frameName>world</frameName>-->
 <!--      <geom>front_bumper_geom</geom>-->
 <!--    </plugin>-->
+    <sensor name="contact_sensor" type="contact">
+      <contact>
+        <collision>front_bumper_col</collision>
+        <topic>/front_bumper</topic>
+      </contact>
+      <self_collide>true</self_collide>
+      <always_on>true</always_on>
+      <update_rate>1000.0</update_rate>
+      <selfCollide>true</selfCollide>
+      <alwaysOn>true</alwaysOn>
+      <updateRate>1000.0</updateRate>
+<!--      <plugin name="gazebo_ros_bumper_controller" filename="libgazebo_ros_bumper.so">-->
+<!--        <bumperTopicName>front_bumper</bumperTopicName>-->
+<!--        <frameName>world</frameName>-->
+<!--        <alwaysOn>true</alwaysOn>-->
+<!--        <updateRate>1000.0</updateRate>-->
+<!--      </plugin>-->
+    </sensor>
+
 <!--    <sensor:contact name="contact_sensor">-->
 <!--      <geom>front_bumper_link</geom>-->
 <!--      <updateRate>20.0</updateRate>-->
