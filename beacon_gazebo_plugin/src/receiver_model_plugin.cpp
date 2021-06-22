@@ -10,6 +10,8 @@
 #include "gazebo/gazebo.hh"
 #include <string>
 #include <beacon_gazebo_plugin/ReceiverIn.h>
+#include <beacon_gazebo_plugin/rssi_noise.h>
+#include <vector>
 
 namespace gazebo {
     class ReceiverModelPlugin : public ModelPlugin {
@@ -31,7 +33,6 @@ namespace gazebo {
 
             for (auto &link : this->model->GetLinks()) {
                 std::string link_name = link->GetName();
-//                            double d = sqrt(pow(beacon_p.X() - receiver_p.X(), 2) + pow(beacon_p.Y() - receiver_p.Y(), 2) + pow(beacon_p.Z() - receiver_p.Z(), 2));
                 printf("\tlink:%s\n",link_name.c_str());
             }
             if (_sdf->HasElement("receiver_link")) {
@@ -82,12 +83,17 @@ namespace gazebo {
                     for (auto &link : model_links) {
                         if (link->GetName().find("beacon") == 0) {
                             std::string beacon_name = std::string("beacon__") + model->GetName();
+
+                            if (this->rssi_noise_generators.find(beacon_name) == this->rssi_noise_generators.end()){
+                                this->rssi_noise_generators[beacon_name] = beacon_gazebo_plugin::RSSINoise(this->m_rssi);
+                            }
+
                             auto beacon_p = link->WorldPose().Pos();
                             auto receiver_p = this->receiver_link->WorldPose().Pos();
                             double d = std::sqrt(std::pow(beacon_p.X() - receiver_p.X(), 2) + std::pow(beacon_p.Y() - receiver_p.Y(), 2) + std::pow(beacon_p.Z() - receiver_p.Z(), 2));
                             beacon_gazebo_plugin::ReceiverIn msg;
                             msg.time_stamp = ros::Time::now();
-                            msg.rssi = this->get_rssi_from_distance(d);
+                            msg.rssi = this->rssi_noise_generators[beacon_name].getRSSI(d);
                             msg.id = beacon_name;
                             msg.m_rssi = this->m_rssi;
                             ROS_INFO("ReceiverModelPlugin:\n\treceiver_name: %s\n\tbeacon_name: %s\n\tdistance: %lf\n\trssi: %lf\n\trssi_m: %lf",
@@ -105,15 +111,11 @@ namespace gazebo {
         std::string receiver_name;
         physics::WorldPtr world;
         float update_rate;
-
+        std::map<std::string, beacon_gazebo_plugin::RSSINoise> rssi_noise_generators;
         common::Time l_u_time;
         ros::Publisher receiver_in_msgs_publisher;
         const double m_rssi = -60.0; // TODO: get m_rssi from config or world
 
-    private:
-        double get_rssi_from_distance(double distance) { // TODO: add noise simulation
-            return this->m_rssi * std::pow(((distance - 0.0) / 1.0), (1.0 / 10.0));
-        }
     };
 
     // Register this plugin with the simulator

@@ -107,13 +107,13 @@ link_directories( ${GAZEBO_LIBRARY_DIRS})
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
-#  INCLUDE_DIRS include
+  INCLUDE_DIRS include
 #  LIBRARIES beacon_gazebo_plugin
 #  CATKIN_DEPENDS gazebo gazebo_ros roscpp rospy std_msgs
 #  DEPENDS system_lib
 DEPENDS
     roscpp
-    gazebo_ros
+    gazebo_ros std_msgs geometry_msgs
 )
 
 ###########
@@ -123,7 +123,7 @@ DEPENDS
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
 include_directories(
-# include
+  include
   ${catkin_INCLUDE_DIRS} ${Boost_INCLUDE_DIR} ${GAZEBO_INCLUDE_DIRS}
 )
 
@@ -213,7 +213,7 @@ include_directories(
 # catkin_add_nosetests(test)
 #add_library(helloplugin SHARED src/HelloPlugin.cpp)
 #target_link_libraries(helloplugin ${catkin_LIBRARIES} ${GAZEBO_LIBRARIES})
-add_library(receiver_model_plugin SHARED src/receiver_model_plugin.cpp)
+add_library(receiver_model_plugin SHARED src/receiver_model_plugin.cpp src/rssi_noise.cpp)
 target_link_libraries(receiver_model_plugin ${catkin_LIBRARIES} ${GAZEBO_LIBRARIES})
 add_library(beacon_model_plugin SHARED src/beacon_model_plugin.cpp)
 target_link_libraries(beacon_model_plugin ${catkin_LIBRARIES} ${GAZEBO_LIBRARIES})
