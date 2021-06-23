@@ -6,15 +6,19 @@
 #include <cmath>
 #include <string>
 #include <vector>
+#include <random>
+//#include <boost/math/distributions/laplace.hpp>
 
 namespace beacon_gazebo_plugin {
     class RSSINoise {
     public:
         RSSINoise();
         RSSINoise(double m_rssi);
-        double getRSSI(double distance);
+        double getRSSI(double distance, double delta_time);
     private:
-        double get_rssi_from_distance(double distance);
         double m_rssi;
+        std::default_random_engine random_generator;
+
+        double laplace(double mean, double scale);
     };
 }

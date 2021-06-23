@@ -38,53 +38,65 @@
   <gazebo>
     <plugin name="receiver_model_plugin" filename="/Users/vasily/Projects/beacons_ws/devel/lib/libreceiver_model_plugin.so">
       <receiver_link>receiver_link</receiver_link>
-      <update_rate>1</update_rate>
+      <update_rate>30</update_rate>
     </plugin>
   </gazebo>
   <gazebo reference="front_bumper_link">
-<!--    <sensor name='my_contact' type='contact'>-->
-<!--      <update_rate>5</update_rate>-->
+    <mu1>0.3</mu1>
+    <mu2>0.3</mu2>
+    <sensor type="contact" name="bumpers">
+      <always_on>1</always_on>
+      <update_rate>50.0</update_rate>
+      <visualize>true</visualize>
+      <contact>
+        <collision>base_footprint_fixed_joint_lump__base_collision</collision>
+      </contact>
+    </sensor>
+  </gazebo>
+<!--  <gazebo reference="front_bumper_link">-->
+<!--&lt;!&ndash;    <sensor name='my_contact' type='contact'>&ndash;&gt;-->
+<!--&lt;!&ndash;      <update_rate>5</update_rate>&ndash;&gt;-->
+<!--&lt;!&ndash;      <contact>&ndash;&gt;-->
+<!--&lt;!&ndash;        <collision>front_bumper_col</collision>&ndash;&gt;-->
+<!--&lt;!&ndash;      </contact>&ndash;&gt;-->
+<!--&lt;!&ndash;    </sensor>&ndash;&gt;-->
+<!--&lt;!&ndash;    <plugin name="front_bumper_gazebo_ros_bumper_controller" filename="libgazebo_ros_bumper.so">&ndash;&gt;-->
+<!--&lt;!&ndash;      <alwaysOn>true</alwaysOn>&ndash;&gt;-->
+<!--&lt;!&ndash;      <updateRate>20</updateRate>&ndash;&gt;-->
+<!--&lt;!&ndash;      <bumperTopicName>front_bumper</bumperTopicName>&ndash;&gt;-->
+<!--&lt;!&ndash;      <frameName>world</frameName>&ndash;&gt;-->
+<!--&lt;!&ndash;      <geom>front_bumper_geom</geom>&ndash;&gt;-->
+<!--&lt;!&ndash;    </plugin>&ndash;&gt;-->
+<!--    <sensor name="contact_sensor" type="contact">-->
 <!--      <contact>-->
 <!--        <collision>front_bumper_col</collision>-->
+<!--        <topic>/front_bumper</topic>-->
 <!--      </contact>-->
-<!--    </sensor>-->
-<!--    <plugin name="front_bumper_gazebo_ros_bumper_controller" filename="libgazebo_ros_bumper.so">-->
+<!--      <self_collide>true</self_collide>-->
+<!--      <always_on>true</always_on>-->
+<!--      <update_rate>1000.0</update_rate>-->
+<!--      <selfCollide>true</selfCollide>-->
 <!--      <alwaysOn>true</alwaysOn>-->
-<!--      <updateRate>20</updateRate>-->
-<!--      <bumperTopicName>front_bumper</bumperTopicName>-->
-<!--      <frameName>world</frameName>-->
-<!--      <geom>front_bumper_geom</geom>-->
-<!--    </plugin>-->
-    <sensor name="contact_sensor" type="contact">
-      <contact>
-        <collision>front_bumper_col</collision>
-        <topic>/front_bumper</topic>
-      </contact>
-      <self_collide>true</self_collide>
-      <always_on>true</always_on>
-      <update_rate>1000.0</update_rate>
-      <selfCollide>true</selfCollide>
-      <alwaysOn>true</alwaysOn>
-      <updateRate>1000.0</updateRate>
-<!--      <plugin name="gazebo_ros_bumper_controller" filename="libgazebo_ros_bumper.so">-->
-<!--        <bumperTopicName>front_bumper</bumperTopicName>-->
-<!--        <frameName>world</frameName>-->
-<!--        <alwaysOn>true</alwaysOn>-->
-<!--        <updateRate>1000.0</updateRate>-->
-<!--      </plugin>-->
-    </sensor>
+<!--      <updateRate>1000.0</updateRate>-->
+<!--&lt;!&ndash;      <plugin name="gazebo_ros_bumper_controller" filename="libgazebo_ros_bumper.so">&ndash;&gt;-->
+<!--&lt;!&ndash;        <bumperTopicName>front_bumper</bumperTopicName>&ndash;&gt;-->
+<!--&lt;!&ndash;        <frameName>world</frameName>&ndash;&gt;-->
+<!--&lt;!&ndash;        <alwaysOn>true</alwaysOn>&ndash;&gt;-->
+<!--&lt;!&ndash;        <updateRate>1000.0</updateRate>&ndash;&gt;-->
+<!--&lt;!&ndash;      </plugin>&ndash;&gt;-->
+<!--    </sensor>-->
 
-<!--    <sensor:contact name="contact_sensor">-->
-<!--      <geom>front_bumper_link</geom>-->
-<!--      <updateRate>20.0</updateRate>-->
-<!--      <controller:gazebo_ros_bumper name="gazebo_ros_bumper_controller" plugin="libgazebo_ros_bumper.so">-->
-<!--        <alwaysOn>true</alwaysOn>-->
-<!--        <updateRate>20.0</updateRate>-->
-<!--        <bumperTopicName>bumper</bumperTopicName>-->
-<!--        <interface:bumper name="bumper_iface" />-->
-<!--      </controller:gazebo_ros_bumper>-->
-<!--    </sensor:contact>-->
-  </gazebo>
+<!--&lt;!&ndash;    <sensor:contact name="contact_sensor">&ndash;&gt;-->
+<!--&lt;!&ndash;      <geom>front_bumper_link</geom>&ndash;&gt;-->
+<!--&lt;!&ndash;      <updateRate>20.0</updateRate>&ndash;&gt;-->
+<!--&lt;!&ndash;      <controller:gazebo_ros_bumper name="gazebo_ros_bumper_controller" plugin="libgazebo_ros_bumper.so">&ndash;&gt;-->
+<!--&lt;!&ndash;        <alwaysOn>true</alwaysOn>&ndash;&gt;-->
+<!--&lt;!&ndash;        <updateRate>20.0</updateRate>&ndash;&gt;-->
+<!--&lt;!&ndash;        <bumperTopicName>bumper</bumperTopicName>&ndash;&gt;-->
+<!--&lt;!&ndash;        <interface:bumper name="bumper_iface" />&ndash;&gt;-->
+<!--&lt;!&ndash;      </controller:gazebo_ros_bumper>&ndash;&gt;-->
+<!--&lt;!&ndash;    </sensor:contact>&ndash;&gt;-->
+<!--  </gazebo>-->
   <gazebo reference="imu_link">
     <gravity>true</gravity>
     <sensor name="imu_sensor" type="imu">
