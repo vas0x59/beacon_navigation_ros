@@ -25,24 +25,13 @@
                     <cylinder length="${width}" radius="${radius}"/>
                 </geometry>
             </collision>
-            <visual name="${name}_visual">
+            <visual name="link_${name}_wheel_visual">
                 <origin rpy="0 1.5707 1.5707" xyz="0 0 0"/>
                 <geometry>
                     <cylinder length="${width}" radius="${radius}"/>
                 </geometry>
             </visual>
         </link>
-        <gazebo reference="${name}">
-            <gravity>true</gravity>
-            <material>Gazebo/Grey</material>
-            <mu1>50</mu1>
-            <mu2>10</mu2>
-            <kp>10000000</kp>
-            <kd>1</kd>
-            <fdir1>1 0 0</fdir1>
-            <minDepth>0.0001</minDepth>
-            <maxContacts>1</maxContacts>
-        </gazebo>
     </xacro:macro>
 
     <xacro:macro name="joint_wheel" params="name child origin_xyz parent">

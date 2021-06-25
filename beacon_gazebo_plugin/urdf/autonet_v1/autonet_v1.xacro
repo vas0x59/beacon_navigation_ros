@@ -105,20 +105,20 @@
   </joint>
    -->
   <xacro:link_wheel name="link_right_wheel" />
-  <xacro:joint_wheel name="joint_right_wheel" child="link_right_wheel" origin_xyz="0 0.16 -0.012" />
+  <xacro:joint_wheel name="joint_right_wheel" child="link_right_wheel" origin_xyz="0 0.16 -0.012" parent="base_link" />
 
   <xacro:link_wheel name="link_left_wheel" />
-  <xacro:joint_wheel name="joint_left_wheel" child="link_left_wheel" origin_xyz="0 -0.16 -0.012" />
+  <xacro:joint_wheel name="joint_left_wheel" child="link_left_wheel" origin_xyz="0 -0.16 -0.012" parent="base_link" />
 
   <joint name="front_bumper_joint" type="fixed">
     <axis xyz="0 1 0" />
     <origin xyz="0.08 0 0" rpy="0 0 0"/>
     <parent link="base_link"/>
-    <child link="front_bumper_link"/>
+    <child link="link_front_bumper"/>
   </joint>
-  <gazebo reference='front_bumper_joint'>
-    <preserveFixedJoint>true</preserveFixedJoint>
-  </gazebo>
+<!--  <gazebo reference='front_bumper_joint'>-->
+<!--    <preserveFixedJoint>true</preserveFixedJoint>-->
+<!--  </gazebo>-->
   <joint name="imu_joint" type="fixed">
     <axis xyz="0 1 0" />
     <origin xyz="0 0 0.01" rpy="0 0 0"/>
@@ -147,9 +147,9 @@
     <preserveFixedJoint>true</preserveFixedJoint>
   </gazebo>
 <!--  &lt;!&ndash; Camera &ndash;&gt;-->
-  <link name="front_bumper_link">
+  <link name="link_front_bumper">
     <pose>0 0 0 0 0 0</pose>
-    <collision name="front_bumper_col">
+    <collision name="link_front_bumper_collision">
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
         <box size="0.04 0.20 0.04"/>

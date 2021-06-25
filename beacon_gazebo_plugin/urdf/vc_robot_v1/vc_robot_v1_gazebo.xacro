@@ -1,0 +1,64 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <gazebo reference="imu_link">
+        <material>Gazebo/Green</material>
+    </gazebo>
+    <gazebo reference="front_bumper_link">
+        <material>Gazebo/White</material>
+    </gazebo>
+    <gazebo reference="link_left_wheel">
+        <material>Gazebo/Blue</material>
+    </gazebo>
+    <gazebo reference="link_right_wheel">
+        <material>Gazebo/Blue</material>
+    </gazebo>
+    <gazebo reference="receiver_link">
+        <material>Gazebo/RedTransparentOverlay</material>
+    </gazebo>
+    <gazebo reference="beacon_link">
+        <material>Gazebo/OrangeTransparentOverlay</material>
+    </gazebo>
+
+    <gazebo>
+        <plugin filename="libgazebo_ros_diff_drive.so" name="differential_drive_controller">
+            <alwaysOn>true</alwaysOn>
+            <updateRate>20</updateRate>
+            <leftJoint>joint_left_wheel</leftJoint>
+            <rightJoint>joint_right_wheel</rightJoint>
+            <wheelSeparation>0.28</wheelSeparation>
+            <wheelDiameter>0.06</wheelDiameter>
+            <torque>20</torque>
+            <commandTopic>cmd_vel</commandTopic>
+            <odometryTopic>odom</odometryTopic>
+            <odometryFrame>odom</odometryFrame>
+            <robotBaseFrame>base_link</robotBaseFrame>
+        </plugin>
+    </gazebo>
+    <gazebo>
+        <plugin name="receiver_model_plugin" filename="libreceiver_model_plugin.so">
+            <receiver_link>receiver_link</receiver_link>
+            <update_rate>30</update_rate>
+        </plugin>
+    </gazebo>
+    <gazebo reference="imu_link">
+        <gravity>true</gravity>
+        <sensor name="imu_sensor" type="imu">
+            <always_on>true</always_on>
+            <update_rate>50</update_rate>
+            <visualize>true</visualize>
+            <topic>__default_topic__</topic>
+            <plugin filename="libgazebo_ros_imu_sensor.so" name="imu_plugin">
+                <topicName>imu</topicName>
+                <bodyName>imu_link</bodyName>
+                <updateRateHZ>10.0</updateRateHZ>
+                <gaussianNoise>0.0</gaussianNoise>
+                <xyzOffset>0 0 0</xyzOffset>
+                <rpyOffset>0 0 0</rpyOffset>
+                <frameName>imu_link</frameName>
+                <initialOrientationAsReference>false</initialOrientationAsReference>
+            </plugin>
+            <pose>0 0 0 0 0 0</pose>
+        </sensor>
+    </gazebo>
+
+</robot>

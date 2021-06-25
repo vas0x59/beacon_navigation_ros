@@ -2,12 +2,14 @@
 <launch>
   <include file="$(find gazebo_ros)/launch/empty_world.launch">
     <arg name="world_name" value="$(find beacon_gazebo_plugin)/worlds/test.world"/>
+    <arg name="gui" value="false"/>
+    <arg name="headless" value="true"/>
   </include>
-  <include file="robot_autonet_v1.launch" >
+  <include file="$(find beacon_gazebo_plugin)/launch/robot_autonet_v1.launch" >
     <arg name="init_pose" value="-x 0 -y 0 -z 0.2" />
     <arg name="robot_name" value="Robot1" />
   </include>
-  <include file="robot_autonet_v1.launch" >
+  <include file="$(find beacon_gazebo_plugin)/launch/robot_vc_robot_v1.launch" >
     <arg name="init_pose" value="-x 2 -y 2 -z 0.2" />
     <arg name="robot_name" value="Robot2" />
   </include>
