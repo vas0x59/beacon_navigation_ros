@@ -70,7 +70,6 @@ namespace gazebo {
                 msg.position.y = beacon_p.Y();
                 msg.position.z = beacon_p.Z();
                 this->beacon_sim_pose_pub.publish(msg);
-
             }
         }
 
