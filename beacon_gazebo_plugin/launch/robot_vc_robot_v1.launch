@@ -4,7 +4,7 @@
     <arg name="init_pose"/>
     <group ns="$(arg robot_name)">
         <param name="tf_prefix" value="$(arg robot_name)_tf" />
-        <param name="robot_description" command="$(find xacro)/xacro --inorder '$(find beacon_gazebo_plugin)/urdf/autonet_v1.xacro'" />
+        <param name="robot_description" command="$(find xacro)/xacro --inorder '$(find beacon_gazebo_plugin)/urdf/vc_robot_v1/vc_robot_v1.xacro'" />
 
 
         <node name="robot_spawn__$(arg robot_name)" pkg="gazebo_ros" type="spawn_model" output="screen"

@@ -3,6 +3,7 @@
     <model name="beacon_v1">
         <link name="beacon">
             <collision name="collision">
+                <pose>0 0 0 0 0 0</pose>
                 <geometry>
                     <box>
                         <size>0.10 0.10 0.25</size>
@@ -10,14 +11,15 @@
                 </geometry>
             </collision>
             <visual name="visual">
+                <pose>0 0 0 0 0 0</pose>
                 <geometry>
-                    <material>
-                        <script>Gazebo/OrangeTransparentOverlay</script>
-                    </material>
                     <box>
                         <size>0.10 0.10 0.25</size>
                     </box>
                 </geometry>
+                <material>
+                    <script>Gazebo/OrangeTransparentOverlay</script>
+                </material>
             </visual>
         </link>
         <plugin name="receiver_model_plugin" filename="libbeacon_model_plugin.so">

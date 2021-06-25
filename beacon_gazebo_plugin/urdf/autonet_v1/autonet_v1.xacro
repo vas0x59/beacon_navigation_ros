@@ -3,8 +3,8 @@
   xmlns:xacro="http://www.ros.org/wiki/xacro">
 
 <!--  <xacro:include filename="$(find beacon_gazebo_plugin)/urdf/materials.xacro" />-->
-  <xacro:include filename="$(find beacon_gazebo_plugin)/urdf/autonet_v1_gazebo.xacro" />
-  <xacro:include filename="$(find beacon_gazebo_plugin)/urdf/macros.xacro" />
+  <xacro:include filename="$(find beacon_gazebo_plugin)/urdf/autonet_v1/autonet_v1_gazebo.xacro" />
+  <xacro:include filename="$(find beacon_gazebo_plugin)/urdf/autonet_v1/macros.xacro" />
 
   <link name="base_link">
     <!-- pose and inertial -->
