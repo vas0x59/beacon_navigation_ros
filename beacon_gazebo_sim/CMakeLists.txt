@@ -64,6 +64,11 @@ include_directories(
 
 add_library(receiver_model_plugin SHARED src/receiver_model_plugin.cpp src/rssi_noise.cpp)
 target_link_libraries(receiver_model_plugin ${catkin_LIBRARIES} ${GAZEBO_LIBRARIES})
+
 add_library(beacon_model_plugin SHARED src/beacon_model_plugin.cpp)
 target_link_libraries(beacon_model_plugin ${catkin_LIBRARIES} ${GAZEBO_LIBRARIES})
+
+add_library(beacons_sync_world_plugin SHARED src/beacons_sync_world_plugin.cpp)
+target_link_libraries(beacons_sync_world_plugin ${catkin_LIBRARIES} ${GAZEBO_LIBRARIES})
+
 catkin_package()

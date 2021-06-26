@@ -8,5 +8,8 @@
     <include>
       <uri>model://ground_plane</uri>
     </include>
+    <plugin name="beacons_sync_world_plugin" filename="libbeacons_sync_world_plugin.so">
+      <update_rate>30</update_rate>
+    </plugin>
   </world>
 </sdf>
