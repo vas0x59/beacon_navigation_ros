@@ -2,7 +2,7 @@
 <launch>
     <arg name="beacon_name"/>
     <arg name="init_pose"/>
-    <arg name="model_file" default="'$(find beacon_gazebo_plugin)/models/beacon/model.sdf'" />
+    <arg name="model_file" default="'$(find beacon_gazebo_sim)/models/beacon/model.sdf'" />
     <node name="model_spawn__$(arg beacon_name)" pkg="gazebo_ros" type="spawn_model" output="screen"
           args="$(arg init_pose) -sdf -model $(arg beacon_name) -file $(arg model_file)" />
 </launch>

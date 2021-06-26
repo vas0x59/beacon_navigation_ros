@@ -3,7 +3,7 @@ import time
 import numpy as np
 import matplotlib.pyplot as plt
 import rospy
-from beacon_gazebo_plugin.msg import ReceiverIn, BeaconSimPose
+from beacon_gazebo_sim.msg import ReceiverIn, BeaconSimPose
 
 a = np.array([])
 d = np.array([])

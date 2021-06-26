@@ -8,7 +8,7 @@
 #include <vector>
 #include <random>
 
-namespace beacon_gazebo_plugin {
+namespace beacon_gazebo_sim {
     class RSSINoise {
     public:
         RSSINoise();

@@ -1,8 +1,8 @@
 <robot name="vc_robot_v1"
        xmlns:xacro="http://www.ros.org/wiki/xacro">
 
-    <xacro:include filename="$(find beacon_gazebo_plugin)/urdf/vc_robot_v1/vc_robot_v1_gazebo.xacro" />
-    <xacro:include filename="$(find beacon_gazebo_plugin)/urdf/vc_robot_v1/macros.xacro" />
+    <xacro:include filename="$(find beacon_gazebo_sim)/urdf/vc_robot_v1/vc_robot_v1_gazebo.xacro" />
+    <xacro:include filename="$(find beacon_gazebo_sim)/urdf/vc_robot_v1/macros.xacro" />
 
 
 

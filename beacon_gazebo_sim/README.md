@@ -1,4 +1,4 @@
-# beacon_gazebo_plugin
+# beacon_gazebo_sim
 ## Gazebo plugins
 ## Receiver plugin
 **source:** src/receiver_model_plugin.cpp
@@ -15,4 +15,4 @@ spawns robot model and other things
 spawns beacon model
 ### test.launch
 
-
+## Models

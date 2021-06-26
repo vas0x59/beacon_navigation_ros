@@ -2,7 +2,7 @@ import ros
 import rospy
 from geometry_msgs.msg import PoseStamped
 import numpy as np
-from beacon_gazebo_plugin.msg import ReceiverIn, BeaconSimPose
+from beacon_gazebo_sim.msg import ReceiverIn, BeaconSimPose
 from typing import *
 # from dataclasses import dataclass
 # from collections import namedtuple
@@ -99,7 +99,7 @@ class TestEst:
 rospy.init_node("test_pose_est")
 
 te = TestEst(receiver_topic="/Robot1/receiver__Robot1/receiver_in_msgs",
-             beacons_poses_topic="/beacon_gazebo_plugin/beacons",
+             beacons_poses_topic="/beacon_gazebo_sim/beacons",
              self_beacon="beacon__Robot1",
              pose_pub_topic="/Robot1/test_pose")
 te.spin()

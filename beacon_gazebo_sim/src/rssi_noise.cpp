@@ -1,9 +1,9 @@
 //
 // Created by Vasily Yuryev on 22.06.2021.
 //
-#include <beacon_gazebo_plugin/rssi_noise.h>
+#include <beacon_gazebo_sim/rssi_noise.h>
 
-namespace beacon_gazebo_plugin {
+namespace beacon_gazebo_sim {
     RSSINoise::RSSINoise() {
         this->m_rssi = -60;
     }

@@ -7,7 +7,7 @@
 #include "gazebo/physics/physics.hh"
 #include "gazebo/common/common.hh"
 #include "gazebo/gazebo.hh"
-#include <beacon_gazebo_plugin/BeaconSimPose.h>
+#include <beacon_gazebo_sim/BeaconSimPose.h>
 #include <string>
 
 namespace gazebo {
@@ -46,7 +46,7 @@ namespace gazebo {
             }
 
             ros::NodeHandle n;
-            this->beacon_sim_pose_pub = n.advertise<beacon_gazebo_plugin::BeaconSimPose>("/beacon_gazebo_plugin/beacons", 1000);
+            this->beacon_sim_pose_pub = n.advertise<beacon_gazebo_sim::BeaconSimPose>("/beacon_gazebo_sim/beacons", 1000);
             this->l_u_time = common::Time(0.0);
 
 
@@ -62,7 +62,7 @@ namespace gazebo {
 
                 std::string beacon_name = std::string("beacon__") + model->GetName();
                 auto beacon_p = this->beacon_link->WorldPose().Pos();
-                beacon_gazebo_plugin::BeaconSimPose msg;
+                beacon_gazebo_sim::BeaconSimPose msg;
                 msg.time_stamp = ros::Time::now();
                 msg.frame_id = "world";
                 msg.id = this->beacon_name;

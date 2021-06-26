@@ -9,8 +9,8 @@
 #include "gazebo/common/common.hh"
 #include "gazebo/gazebo.hh"
 #include <string>
-#include <beacon_gazebo_plugin/ReceiverIn.h>
-#include <beacon_gazebo_plugin/rssi_noise.h>
+#include <beacon_gazebo_sim/ReceiverIn.h>
+#include <beacon_gazebo_sim/rssi_noise.h>
 #include <vector>
 
 namespace gazebo {
@@ -65,7 +65,7 @@ namespace gazebo {
             }
             ros::NodeHandle n;
 
-            this->receiver_in_msgs_publisher = n.advertise<beacon_gazebo_plugin::ReceiverIn>(
+            this->receiver_in_msgs_publisher = n.advertise<beacon_gazebo_sim::ReceiverIn>(
                     "/" + this->model->GetName() + "/" + this->receiver_name + "/receiver_in_msgs", 1000);
 
             this->l_u_time = common::Time(0.0);
@@ -87,7 +87,7 @@ namespace gazebo {
                             std::string beacon_name = std::string("beacon__") + model->GetName();
 
                             if (this->rssi_noise_generators.find(beacon_name) == this->rssi_noise_generators.end()){
-                                this->rssi_noise_generators[beacon_name] = beacon_gazebo_plugin::RSSINoise(this->m_rssi);
+                                this->rssi_noise_generators[beacon_name] = beacon_gazebo_sim::RSSINoise(this->m_rssi);
                             }
 
                             auto beacon_p = link->WorldPose().Pos();
@@ -99,7 +99,7 @@ namespace gazebo {
                                     std::pow(beacon_p.Z() - receiver_p.Z(), 2)
                                     );
 
-                            beacon_gazebo_plugin::ReceiverIn msg;
+                            beacon_gazebo_sim::ReceiverIn msg;
                             msg.time_stamp = ros::Time::now();
                             msg.rssi = this->rssi_noise_generators[beacon_name].getRSSI(d, elapsed.Double());
                             msg.id = beacon_name;
@@ -121,7 +121,7 @@ namespace gazebo {
         std::string receiver_name;
         physics::WorldPtr world;
         float update_rate;
-        std::map<std::string, beacon_gazebo_plugin::RSSINoise> rssi_noise_generators;
+        std::map<std::string, beacon_gazebo_sim::RSSINoise> rssi_noise_generators;
         common::Time l_u_time;
         ros::Publisher receiver_in_msgs_publisher;
         const double m_rssi = -60.0; // TODO: get m_rssi from config or world

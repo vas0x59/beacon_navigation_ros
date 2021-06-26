@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.0.2)
-project(beacon_gazebo_plugin)
+project(beacon_gazebo_sim)
 
 ## Compile as C++11, supported in ROS Kinetic and newer
 add_compile_options(-std=c++11)
@@ -38,7 +38,7 @@ generate_messages(
 
 catkin_package(
   INCLUDE_DIRS include
-#  LIBRARIES beacon_gazebo_plugin
+#  LIBRARIES beacon_gazebo_sim
 #  CATKIN_DEPENDS gazebo gazebo_ros roscpp rospy std_msgs
 #  DEPENDS system_lib
         CATKIN_DEPENDS roscpp gazebo_ros std_msgs geometry_msgs message_runtime
