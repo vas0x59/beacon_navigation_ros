@@ -25,4 +25,32 @@
     <arg name="init_pose" value="-x -1 -y -1 -z 0.2" />
     <arg name="beacon_name" value="beacon_3" />
   </include>
+  <include file="$(find beacon_gazebo_sim)/launch/beacon.launch" >
+    <arg name="init_pose" value="-x 3 -y -3 -z 0.2" />
+    <arg name="beacon_name" value="beacon_4" />
+  </include>
+  <include file="$(find beacon_gazebo_sim)/launch/beacon.launch" >
+    <arg name="init_pose" value="-x 4 -y -3 -z 0.2" />
+    <arg name="beacon_name" value="beacon_5" />
+  </include>
+  <include file="$(find beacon_gazebo_sim)/launch/beacon.launch" >
+    <arg name="init_pose" value="-x 5 -y -3 -z 0.2" />
+    <arg name="beacon_name" value="beacon_6" />
+  </include>
+  <include file="$(find beacon_gazebo_sim)/launch/beacon.launch" >
+    <arg name="init_pose" value="-x 6 -y -3 -z 0.2" />
+    <arg name="beacon_name" value="beacon_7" />
+  </include>
+  <include file="$(find beacon_gazebo_sim)/launch/beacon.launch" >
+    <arg name="init_pose" value="-x 6 -y -2 -z 0.2" />
+    <arg name="beacon_name" value="beacon_8" />
+  </include>
+  <include file="$(find beacon_gazebo_sim)/launch/beacon.launch" >
+    <arg name="init_pose" value="-x 6 -y -1 -z 0.2" />
+    <arg name="beacon_name" value="beacon_9" />
+  </include>
+  <include file="$(find beacon_gazebo_sim)/launch/beacon.launch" >
+    <arg name="init_pose" value="-x 6 -y 0 -z 0.2" />
+    <arg name="beacon_name" value="beacon_10" />
+  </include>
 </launch>

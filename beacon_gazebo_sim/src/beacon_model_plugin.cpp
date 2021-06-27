@@ -46,7 +46,7 @@ namespace gazebo {
             }
 
             ros::NodeHandle n;
-            this->beacon_sim_pose_pub = n.advertise<beacon_gazebo_sim::BeaconSimPose>("/beacon_gazebo_sim/beacons", 1000);
+            this->beacon_sim_pose_pub = n.advertise<beacon_gazebo_sim::BeaconSimPose>("/beacon_gazebo_sim/beacons", 1);
             this->l_u_time = common::Time(0.0);
 
 

@@ -11,5 +11,6 @@
               args="$(arg init_pose) -urdf -param robot_description -model $(arg robot_name)" />
         <!--0 -0.1 0.2" rpy="0 0.5 0  -->
         <node name="robot_state_publisher__$(arg robot_name)" pkg="robot_state_publisher" type="robot_state_publisher" />
+        <node pkg="beacon_gazebo_sim" type="odometry_shifter.py" name="odometry_shifter__$(arg robot_name)" output="screen" clear_params="true" />
     </group>
 </launch>
