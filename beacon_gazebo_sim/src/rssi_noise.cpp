@@ -32,7 +32,7 @@ namespace beacon_gazebo_sim {
 
         double dt = time - this->prev_time;
 
-        std::normal_distribution<double> nd_rssi(rssi_1, 1);
+        std::normal_distribution<double> nd_rssi(rssi_1, 0.1);
         double rssi_out = nd_rssi(this->random_generator);
 //        double rssi_out = laplace(rssi_1, 2); // I think this is the closest distribution to the real one
         this->prev_time = time;

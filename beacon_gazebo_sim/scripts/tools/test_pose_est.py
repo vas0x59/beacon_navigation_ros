@@ -8,6 +8,32 @@ from typing import *
 # from collections import namedtuple
 
 
+def _rssi_to_distance(rssi: float, m_power: float, a: float = 10, b: float = 1, c: float = 0) -> float:  # rssi, m_power -> distance
+    return b * ((rssi / m_power) ** a) + c
+
+
+def _solve_position_2d(b_positions: np.ndarray, b_distances: np.ndarray) -> np.ndarray:
+    """
+    simple 2d pose estimation
+    :param b_positions: np.ndarray - 2d pose
+    :param b_distances: np.ndarray - rssi vals
+    :return: np.ndarray - 2d pose
+    """
+    b_p = b_positions[1:, :]
+    b_p_1 = b_positions[0]
+    # print(b_p_1, b_p)
+    A = (b_p_1 - b_p)
+    # print("A", A)
+    # print("b_p**2", np.expand_dims(np.sum(-b_p**2, axis=1), axis=1), np.sum(b_p_1**2), b_distances[0]**2, b_distances[1:]**2, np.expand_dims(b_distances[1:]**2, axis=1))
+    b = np.expand_dims(np.sum(-b_p**2, axis=1), axis=1) + np.sum(b_p_1**2) - b_distances[0]**2 + np.expand_dims(b_distances[1:]**2, axis=1)
+    b = b*0.5
+    # print("b", b)
+    # print("------", A.T @ A)
+    m = np.linalg.inv(A.T @ A) @ (A.T @ b)
+    # print(m)
+    return np.reshape(m, (2))
+
+
 class TestEst:
     class RSSIMsg(NamedTuple):
         time_stamp: float = 0
@@ -41,30 +67,6 @@ class TestEst:
             self.beacons_pose[msg.id] = TestEst.BeaconPose(msg.time_stamp,
                                                            np.array([msg.position.x, msg.position.y, msg.position.z]))
 
-    def _solve_position_2d(self, b_positions: np.ndarray, b_distances: np.ndarray) -> np.ndarray:
-        """
-        simple 2d pose estimation
-        :param b_positions: np.ndarray - 2d pose
-        :param b_distances: np.ndarray - rssi vals
-        :return: np.ndarray - 2d pose
-        """
-        b_p = b_positions[1:, :]
-        b_p_1 = b_positions[0]
-        # print(b_p_1, b_p)
-        A = (b_p_1 - b_p)
-        # print("A", A)
-        # print("b_p**2", np.expand_dims(np.sum(-b_p**2, axis=1), axis=1), np.sum(b_p_1**2), b_distances[0]**2, b_distances[1:]**2, np.expand_dims(b_distances[1:]**2, axis=1))
-        b = np.expand_dims(np.sum(-b_p**2, axis=1), axis=1) + np.sum(b_p_1**2) - b_distances[0]**2 + np.expand_dims(b_distances[1:]**2, axis=1)
-        b = b*0.5
-        # print("b", b)
-        # print("------", A.T @ A)
-        m = np.linalg.inv(A.T @ A) @ (A.T @ b)
-        # print(m)
-        return np.reshape(m, (2))
-
-    def _rssi_to_distance(self, rssi: float, m_power: float, a: float = 10, b: float = 1, c: float = 0) -> float:  # rssi, m_power -> distance
-        return b * ((rssi / m_power) ** a) + c
-
     def predict_pose_stamped(self, time) -> PoseStamped:
         # 2d pose est
         beacons_ids = list(set(self.beacons_pose.keys()).intersection(set(self.beacons_rssi.keys())))
@@ -72,11 +74,11 @@ class TestEst:
         if len(beacons_ids) >= 3:
             b_positions = np.array([el.pose
                                     for k, el in map(lambda k: (k, self.beacons_pose[k]), beacons_ids)])
-            b_distances = np.array([self._rssi_to_distance(el.rssi, el.m_rssi)
+            b_distances = np.array([_rssi_to_distance(el.rssi, el.m_rssi)
                                     for k, el in map(lambda k: (k, self.beacons_rssi[k]), beacons_ids)])
             time_stamp = min([el.time_stamp.to_sec() for k, el in map(lambda k: (k, self.beacons_rssi[k]), beacons_ids)])
             print("b_distances: ", b_distances)
-            xy = self._solve_position_2d(b_positions[:, :2], b_distances)
+            xy = _solve_position_2d(b_positions[:, :2], b_distances)
             msg = PoseStamped()
             msg.pose.position.x = xy[0]
             msg.pose.position.y = xy[1]
