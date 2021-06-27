@@ -35,6 +35,8 @@
       <receiver_link>receiver_link</receiver_link>
 <!--      <update_rate>30</update_rate>-->
       <use_sync>1</use_sync>
+      <send_sim_pose>1</send_sim_pose>
+      <packed_publishing>1</packed_publishing>
     </plugin>
   </gazebo>
   <gazebo reference="front_bumper_link">

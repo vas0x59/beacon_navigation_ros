@@ -26,7 +26,7 @@ link_directories( ${GAZEBO_LIBRARY_DIRS})
 
 add_message_files(
   FILES
-  ReceiverIn.msg BeaconSimPose.msg
+  ReceiverIn.msg BeaconSimPose.msg ReceiverInSyncPacked.msg
 )
 
 
@@ -55,6 +55,10 @@ include_directories(
   ${catkin_INCLUDE_DIRS} ${Boost_INCLUDE_DIR} ${GAZEBO_INCLUDE_DIRS}
 )
 
+ catkin_install_python(PROGRAMS
+   src/odometry_shifter.py
+   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+ )
 
 add_library(receiver_model_plugin SHARED src/receiver_model_plugin.cpp src/rssi_noise.cpp)
 target_link_libraries(receiver_model_plugin ${catkin_LIBRARIES} ${GAZEBO_LIBRARIES})

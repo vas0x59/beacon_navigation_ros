@@ -10,8 +10,10 @@
 #include "gazebo/gazebo.hh"
 #include <string>
 #include <beacon_gazebo_sim/ReceiverIn.h>
+#include <beacon_gazebo_sim/ReceiverInSyncPacked.h>
 #include <beacon_gazebo_sim/rssi_noise.h>
 #include <vector>
+#include <geometry_msgs/PoseStamped.h>
 
 namespace gazebo {
     class ReceiverModelPlugin : public ModelPlugin {
@@ -53,17 +55,21 @@ namespace gazebo {
                     ROS_ERROR("receiver_link Is NULL");
                     return;
                 }
-                ROS_INFO("ReceiverModelPlugin: name: %s", this->receiver_name.c_str());
             } else {
                 ROS_ERROR("Haha receiver_link");
                 return;
             }
 
-            this->use_sync = false;
+            if (_sdf->HasElement("send_sim_pose")) {
+                this->send_sim_pose = _sdf->Get<bool>("send_sim_pose");
+            }
 
             if (_sdf->HasElement("use_sync")) {
                 this->use_sync = _sdf->Get<bool>("use_sync");
-                ROS_INFO("ReceiverModelPlugin: use_sync: %d", this->use_sync);
+            }
+
+            if (_sdf->HasElement("packed_publishing")) {
+                this->packed_publishing = _sdf->Get<bool>("packed_publishing");
             }
 
             if (_sdf->HasElement("update_rate")) {
@@ -73,10 +79,22 @@ namespace gazebo {
                 ROS_ERROR("Haha update_rate");
                 return;
             }
+
+            ROS_INFO("ReceiverModelPlugin: receiver_name: %s", this->receiver_name.c_str());
+            ROS_INFO("ReceiverModelPlugin: send_sim_pose: %d", this->send_sim_pose);
+            ROS_INFO("ReceiverModelPlugin: use_sync: %d", this->use_sync);
+            ROS_INFO("ReceiverModelPlugin: packed_publishing: %d", this->packed_publishing);
+
             ros::NodeHandle n;
 
-            this->receiver_in_msgs_publisher = n.advertise<beacon_gazebo_sim::ReceiverIn>(
-                    "/" + this->model->GetName() + "/" + this->receiver_name + "/receiver_in_msgs", 1);
+            if (this->send_sim_pose)
+                this->sim_pose_pub = n.advertise<geometry_msgs::PoseStamped>("/beacon_gazebo_sim/" + this->receiver_name + "/pose", 1);
+            if (!this->packed_publishing)
+                this->receiver_in_msgs_publisher = n.advertise<beacon_gazebo_sim::ReceiverIn>(
+                        "/" + this->model->GetName() + "/" + this->receiver_name + "/receiver_in_msgs", 1);
+            else
+                this->receiver_in_msgs_packed_publisher = n.advertise<beacon_gazebo_sim::ReceiverInSyncPacked>(
+                        "/" + this->model->GetName() + "/" + this->receiver_name + "/receiver_in_msgs_packed", 1);
 
             this->l_u_time = common::Time(0.0);
             if (!this->use_sync) {
@@ -84,10 +102,6 @@ namespace gazebo {
                         boost::bind(&ReceiverModelPlugin::OnUpdateRate, this, _1));
             }
             else {
-//                std::function<void(const ignition::msgs::Empty &)> cb =
-//                        [=](const ignition::msgs::Empty &_msg){
-//                            ReceiverModelPlugin::OnSync(_msg);
-//                        };
                 this->sync_sub = this->gz_node->Subscribe(std::string("/beacon_sim_gazebo/sync"), &ReceiverModelPlugin::OnSync, this);
             }
         }
@@ -95,7 +109,7 @@ namespace gazebo {
             common::Time simTime = _info.simTime;
             common::Time elapsed = simTime - this->l_u_time;
             if (elapsed >= common::Time(1.0/this->update_rate)) {
-//                ROS_INFO("ReceiverModelPlugin: Update, receiver_name: %s", this->receiver_name.c_str());
+
                 this->UpdateFun(simTime);
                 this->l_u_time = simTime;
             }
@@ -106,8 +120,24 @@ namespace gazebo {
             this->UpdateFun(simTime);
             this->l_u_time = simTime;
         }
+    private: void sendSimPose() {
+            geometry_msgs::PoseStamped msg;
+            msg.header.frame_id = "world";
+            msg.header.stamp = ros::Time::now();
+            auto r_p = this->receiver_link->WorldPose();
+
+            msg.pose.position.x = r_p.X();
+            msg.pose.position.y = r_p.Y();
+            msg.pose.position.z = r_p.Z();
+            sim_pose_pub.publish(msg);
+        }
     private: void UpdateFun(const common::Time& simTime){
+            if (this->send_sim_pose)
+                this->sendSimPose();
+
             physics::Model_V models = this->world->Models();
+            std::vector<beacon_gazebo_sim::ReceiverIn> p_msgs;
+
             for (auto &model : models) {
                 physics::Link_V model_links = model->GetLinks();
                 for (auto &link : model_links) {
@@ -132,12 +162,18 @@ namespace gazebo {
                         msg.rssi = this->rssi_noise_generators[beacon_name].getRSSI(d, simTime.Double());
                         msg.id = beacon_name;
                         msg.m_rssi = this->m_rssi;
-                        this->receiver_in_msgs_publisher.publish(msg);
-
-//                            ROS_INFO("ReceiverModelPlugin:\n\treceiver_name: %s\n\tbeacon_name: %s\n\tdistance: %lf\n\trssi: %lf\n\trssi_m: %lf",
-//                                     this->receiver_name.c_str(), beacon_name.c_str(), d, msg.rssi, msg.m_rssi);
+                        if (!this->packed_publishing)
+                            this->receiver_in_msgs_publisher.publish(msg);
+                        else
+                            p_msgs.push_back(msg);
                     }
                 }
+            }
+            if (this->packed_publishing) {
+                beacon_gazebo_sim::ReceiverInSyncPacked p_msg_out;
+                p_msg_out.time_stamp = ros::Time::now();
+                p_msg_out.data = p_msgs;
+                this->receiver_in_msgs_packed_publisher.publish(p_msg_out);
             }
         }
     private:
@@ -147,14 +183,18 @@ namespace gazebo {
         event::ConnectionPtr updateConnection;
         physics::LinkPtr receiver_link;
         std::string receiver_name;
+        bool send_sim_pose = false;
         physics::WorldPtr world;
         float update_rate;
         std::map<std::string, beacon_gazebo_sim::RSSINoise> rssi_noise_generators;
         common::Time l_u_time;
         ros::Publisher receiver_in_msgs_publisher;
-        bool use_sync;
+        bool use_sync = false;
         const double m_rssi = -60.0; // TODO: get m_rssi from config or world
         transport::SubscriberPtr sync_sub;
+        ros::Publisher sim_pose_pub;
+        bool packed_publishing = false;
+        ros::Publisher receiver_in_msgs_packed_publisher;
     };
 
     // Register this plugin with the simulator
