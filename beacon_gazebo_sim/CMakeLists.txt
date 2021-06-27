@@ -55,12 +55,6 @@ include_directories(
   ${catkin_INCLUDE_DIRS} ${Boost_INCLUDE_DIR} ${GAZEBO_INCLUDE_DIRS}
 )
 
-## Mark executable scripts (Python etc.) for installation
-## in contrast to setup.py, you can choose the destination
-# catkin_install_python(PROGRAMS
-#   scripts/my_python_script
-#   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
-# )
 
 add_library(receiver_model_plugin SHARED src/receiver_model_plugin.cpp src/rssi_noise.cpp)
 target_link_libraries(receiver_model_plugin ${catkin_LIBRARIES} ${GAZEBO_LIBRARIES})
